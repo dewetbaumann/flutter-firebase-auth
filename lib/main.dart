@@ -74,16 +74,14 @@ class _AuthWrapperState extends State<AuthWrapper> {
     );
   }
 
-  void sendMailValidation() {
+  Future<void> sendMailValidation() async {
     if (fsAuth.currentUser != null &&
         fsAuth.currentUser.emailVerified == false) {
-      fsAuth.currentUser.sendEmailVerification().then(
-            (value) => {
-              print('Mail enviado'),
-              print(
-                  'Estado de la validacion del mail: ${fsAuth.currentUser.emailVerified}'),
-            },
+      await fsAuth.currentUser.sendEmailVerification().then(
+            (value) => {print('Mail enviado')},
           );
+    } else {
+      print('El usuario ya esta habilitado');
     }
   }
 
@@ -95,9 +93,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
     }
   }
 
-  void forgetMyPassword() async {
-    print('sd');
-  }
+  void forgetMyPassword() async {}
 
   void sigIn() async {
     try {
@@ -141,5 +137,6 @@ class _AuthWrapperState extends State<AuthWrapper> {
   void changeNameField() {
     fsAuth.currentUser.updateDisplayName('De Wet Baumann').then((value) =>
         print('El nuevo nombre es ${fsAuth.currentUser.displayName}'));
+    fsAuth.currentUser.updatePassword('987654').then((value) => null);
   }
 }
